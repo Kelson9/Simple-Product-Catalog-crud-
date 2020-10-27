@@ -1,6 +1,7 @@
 package com.productcatalog.product.serviceImplTest;
 
 import com.productcatalog.product.dto.ProductDTO;
+import com.productcatalog.product.exception.ResourceNotFoundException;
 import com.productcatalog.product.model.Product;
 import com.productcatalog.product.repository.ProductRepository;
 import com.productcatalog.product.service.ProductService;
@@ -19,6 +20,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -113,13 +115,23 @@ public  class ProductServiceImplTest {
 
   }
 
-   @Test
+  @Test
+  void updateProduct_throwsException_whenResourceNotFound(){
+
+    when(mockProductRepository.findById(anyLong()))
+      .thenReturn(Optional.empty());
+
+    ResourceNotFoundException resourceNotFoundException = assertThrows(ResourceNotFoundException.class, () ->productService.updateProduct(new ProductDTO(),1L));
+    verify(mockProductRepository).findById(1L);
+    assertThat(resourceNotFoundException.getMessage()).isEqualTo("Resource not found");
+
+  }
+
+  @Test
     void deleteProduct_Deletes_A_Product(){
 
     productService.deleteProduct(1L);
     verify(mockProductRepository).deleteById(1L);
-
-
   }
 
 }
