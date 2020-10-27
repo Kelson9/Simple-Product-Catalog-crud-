@@ -1,6 +1,7 @@
 package com.productcatalog.product.serviceImpl;
 
 import com.productcatalog.product.dto.ProductDTO;
+import com.productcatalog.product.exception.ResourceNotFoundException;
 import com.productcatalog.product.model.Product;
 import com.productcatalog.product.repository.ProductRepository;
 import com.productcatalog.product.service.ProductService;
@@ -9,6 +10,8 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import static com.productcatalog.product.exception.ErrorCodes.RESOURCE_NOT_FOUND;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -37,8 +40,10 @@ public class ProductServiceImpl implements ProductService {
 
   @Override
   public ProductDTO getProduct(Long productId) {
-
     Optional<Product> product =productRepository.findById(productId);
+    if(!product.isPresent()) {
+      throw new ResourceNotFoundException(RESOURCE_NOT_FOUND.getMessage());
+    }
     ProductDTO productDTO=new ProductDTO();
     productDTO.setId(productId);
     productDTO.setName(product.get().getName());
@@ -67,17 +72,17 @@ public class ProductServiceImpl implements ProductService {
 
   @Override
   public void updateProduct(ProductDTO productDTO,Long productId){
-    Optional <Product> product= productRepository.findById(productId);
-    if(!product.isPresent()){
-      System.out.println("Productnot found");
+      Optional<Product> product = productRepository.findById(productId);
+      if (!product.isPresent()) {
+        throw new ResourceNotFoundException(RESOURCE_NOT_FOUND.getMessage());
+      }
+
+      Product product1 = new Product();
+      product1.setName(productDTO.getName());
+      product1.setPrice(productDTO.getPrice());
+      product1.setId(productId);
+
+      productRepository.save(product1);
     }
-
-    Product product1=new Product();
- product1.setName(productDTO.getName());
- product1.setPrice(productDTO.getPrice());
- product1.setId(productId);
-
-    productRepository.save(product1);
-  }
 
 }
