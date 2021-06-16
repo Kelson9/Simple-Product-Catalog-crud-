@@ -57,8 +57,8 @@ public class ProductServiceImpl implements ProductService {
     List<ProductDTO> productDTOS=new ArrayList<>();
     for(Product product1: product){
       ProductDTO productDTO = new ProductDTO();
-      productDTO.setPrice(product1.getPrice());
       productDTO.setName(product1.getName());
+      productDTO.setPrice(product1.getPrice());
       productDTO.setId((product1.getId()));
       productDTOS.add(productDTO);
     }
