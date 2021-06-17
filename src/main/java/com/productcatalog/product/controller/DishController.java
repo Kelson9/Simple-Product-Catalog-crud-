@@ -53,7 +53,6 @@ public class DishController {
 	}
 	
 	@PostMapping("/dish")
-	@PreAuthorize("hasRole('MANAGER')")
 	public ResponseEntity<Object> createDish( @RequestParam String name, @RequestParam int quantity,
 			@RequestParam String price, @RequestPart MultipartFile pxtImage) {
 		
