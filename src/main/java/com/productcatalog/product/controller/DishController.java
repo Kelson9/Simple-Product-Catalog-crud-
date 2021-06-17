@@ -47,10 +47,10 @@ public class DishController {
 		return productService.getDish(dishId);
 	}
 	
-	@DeleteMapping("/dish/{dishId}")
-	@PreAuthorize("hasRole('MANAGER')")
-	public ResponseEntity<Object> deleteProduct(@PathVariable Long dishId) {
-		return productService.removeDish(dishId);
+	@DeleteMapping("/product/{productId}")
+//	@PreAuthorize("hasRole('MANAGER')")
+	public ResponseEntity<Object> deleteProduct(@PathVariable Long productId) {
+		return productService.removeDish(productId);
 	}
 	
 	@PostMapping("/dish")
@@ -61,7 +61,8 @@ public class DishController {
 		
 	}
 	
-	@PutMapping("/dish/{dishId}")
+	@PutMapping("/update/dish/{dishId}")
+//	@PreAuthorize("hasRole('CHEF')")
 	public ResponseEntity<Object> updateDish(@PathVariable Long dishId, @RequestParam String name, 
 			@RequestParam int quantity, @RequestParam String price, @RequestPart MultipartFile pxtImage) {
 		
