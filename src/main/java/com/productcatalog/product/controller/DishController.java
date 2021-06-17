@@ -6,6 +6,7 @@ import com.productcatalog.product.model.Dish;
 import com.productcatalog.product.serviceImpl.DishDaoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -46,12 +47,14 @@ public class DishController {
 	}
 	
 	@DeleteMapping("/dish/{dishId}")
+	@PreAuthorize("hasRole('MANAGER')")
 	public ResponseEntity<Object> deleteProduct(@PathVariable Long dishId) {
 		return productService.removeDish(dishId);
 	}
 	
 	@PostMapping("/dish")
-	public ResponseEntity<Object> createCategory( @RequestParam String name, @RequestParam int quantity,
+	@PreAuthorize("hasRole('MANAGER')")
+	public ResponseEntity<Object> createDish( @RequestParam String name, @RequestParam int quantity,
 			@RequestParam String price, @RequestPart MultipartFile pxtImage) {
 		
 		return productService.postDish(name, quantity, price, pxtImage);
