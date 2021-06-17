@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
@@ -60,13 +61,13 @@ public class DishController {
 		
 	}
 	
-//	@PutMapping("/products/{productId}")
-//	public ResponseEntity<Object> updateCategory(@PathVariable int productId, @RequestParam String name, 
-//			@RequestParam int quantity, @RequestParam String price, @RequestPart MultipartFile pxtImage) {
-//		
-//		return productService.editProduct(productId, name, quantity, price, pxtImage);
-//		
-//	}	
+	@PutMapping("/dish/{dishId}")
+	public ResponseEntity<Object> updateDish(@PathVariable Long dishId, @RequestParam String name, 
+			@RequestParam int quantity, @RequestParam String price, @RequestPart MultipartFile pxtImage) {
+		
+		return productService.editProduct(dishId, name, quantity, price, pxtImage);
+		
+	}	
 	
 	
 	
